@@ -1,6 +1,6 @@
 import random
 
-def get_numbers_ticket(min, max, quantity):
+def get_numbers_ticket(min:int, max:int, quantity:int) -> list[int]:
     """Return a sorted list of unique random numbers within a specified range.
 
     Args:

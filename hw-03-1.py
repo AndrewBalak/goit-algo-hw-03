@@ -1,9 +1,9 @@
 from datetime import datetime
 
-def string_to_date(date_string):
+def string_to_date(date_string) -> datetime:
     return datetime.strptime(date_string, "%Y-%m-%d")
 
-def get_days_from_today(date_input):
+def get_days_from_today(date_input) -> int:
     """Return whole days between today and date_input.
 
     Accepts a datetime instance or a 'YYYY-MM-DD' string. Only the date component is used.

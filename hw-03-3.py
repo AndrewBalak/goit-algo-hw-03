@@ -1,18 +1,25 @@
-def normalize_phone(phone_number):
-    """Normalize a phone number to the format '380XXXXXXXXX'."""
-    cleaned_number = ''.join(filter(str.isdigit, phone_number))
+import re
 
-    if cleaned_number.startswith('0') and len(cleaned_number) == 10:
-        # Local format starting with '0'
-        return '38' + cleaned_number
-    elif cleaned_number.startswith('380') and len(cleaned_number) == 12:
-        # Already in correct format
-        return cleaned_number
-    elif cleaned_number.startswith('80') and len(cleaned_number) == 11:
-        # Missing leading '3'
-        return '3' + cleaned_number
-    elif len(cleaned_number) == 9:
-        # Missing country code
-        return '380' + cleaned_number
+def normalize_phone(phone_number:str) -> str:
+    """
+    Normalize a phone number to the canonical Ukrainian format '+380XXXXXXXXX'.
+
+    Accepts various common presentations (spaces, punctuation, leading '+', '00' prefix).
+    Returns a 13-digit string starting with '+380' or raises ValueError for unsupported formats.
+    """
+    if not isinstance(phone_number, str):
+        raise TypeError("Phone number must be a string.")
+
+    # Remove all non-digit characters
+    digits = re.sub(r'\D', '', phone_number)
+
+    if digits.startswith('380') and len(digits) == 12:
+        return '+' + digits
+    elif digits.startswith('80') and len(digits) == 11:
+        return '+3' + digits
+    elif digits.startswith('0') and len(digits) == 10:
+        return '+38' + digits
+    elif len(digits) == 9:
+        return '+380' + digits
     else:
-        raise ValueError(f"Unrecognized phone number format: {phone_number}")
+        raise ValueError("Unsupported phone number format.")
